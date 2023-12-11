@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>${project.artifactId}</name>
-    <description>【闲鱼】微信支付</description>
+    <description>【咸鱼】微信支付</description>
     <url>https://github.com/ufocjm/lazyfish-wechat-payment</url>
 
     <developers>
@@ -18,9 +18,9 @@
     </developers>
 
     <scm>
-        <url>https://github.com/ufocjm/lazyfish-tool</url>
-        <connection>https://github.com/ufocjm/lazyfish-tool.git</connection>
-        <developerConnection>https://github.com/ufocjm/lazyfish-tool.git</developerConnection>
+        <url>https://github.com/ufocjm/lazyfish-wechat-payment</url>
+        <connection>https://github.com/ufocjm/lazyfish-wechat-payment.git</connection>
+        <developerConnection>https://github.com/ufocjm/lazyfish-wechat-payment.git</developerConnection>
     </scm>
 
     <licenses>
@@ -38,7 +38,6 @@
         <sprint.boot.version>2.3.5.RELEASE</sprint.boot.version>
         <xstream.version>1.4.20</xstream.version>
         <hutool.version>5.6.5</hutool.version>
-        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <guava.version>30.1-jre</guava.version>
         <fastjson.version>2.0.32</fastjson.version>
         <bcprov.jdk15on.version>1.67</bcprov.jdk15on.version>
@@ -60,13 +59,6 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-            <!-- mybatis-plus  -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -77,6 +69,12 @@
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
                 <version>${xstream.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov.jdk15on.version}</version>
             </dependency>
 
         </dependencies>
@@ -130,13 +128,6 @@
             <version>${fastjson.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>${bcprov.jdk15on.version}</version>
-        </dependency>
-
     </dependencies>
 
     <!-- 发布配置 -->

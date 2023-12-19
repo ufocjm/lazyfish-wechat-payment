@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentResponse;
 import fun.nibaba.lazyfish.wechat.payment.utils.LocalDateTimeUtil;
+import lombok.Data;
 
 /**
  * 微信支付-支付回调-解析后实体
@@ -11,6 +12,7 @@ import fun.nibaba.lazyfish.wechat.payment.utils.LocalDateTimeUtil;
  * @author chenjiamin
  * @date 2021/5/18 11:28 上午
  */
+@Data
 public class WechatPaymentPayCallBackResponse extends WechatPaymentResponse {
 
     /**

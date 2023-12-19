@@ -3,6 +3,7 @@ package fun.nibaba.lazyfish.wechat.payment.model.refund;
 import cn.hutool.core.util.StrUtil;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentResponse;
 import fun.nibaba.lazyfish.wechat.payment.utils.LocalDateTimeUtil;
 import fun.nibaba.lazyfish.wechat.payment.utils.WechatAesUtil;
@@ -110,7 +111,9 @@ public class WechatPaymentRefundCallBackDecryptionResponse extends WechatPayment
      * @param mchApiKey
      */
     public WechatPaymentRefundCallBackDecryptionResponse(String encryptionStr, String mchApiKey) {
+        xStream.addPermission(AnyTypePermission.ANY);
         xStream.autodetectAnnotations(true);
+        xStream.ignoreUnknownElements();
         xStream.alias(WECHAT_PAYMENT_REFUND_CALLBACK_DECRYPTION_ALIAS, this.getClass());
         this.xmlStr = WechatAesUtil.decrypt(encryptionStr, mchApiKey);
     }

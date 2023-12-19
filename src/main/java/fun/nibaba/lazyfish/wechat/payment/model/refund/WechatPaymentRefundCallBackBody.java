@@ -1,6 +1,7 @@
 package fun.nibaba.lazyfish.wechat.payment.model.refund;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 /**
  * 微信支付-退款回调-实体
@@ -18,7 +19,9 @@ public class WechatPaymentRefundCallBackBody {
 
     static {
         XSTREAM = new XStream();
+        XSTREAM.addPermission(AnyTypePermission.ANY);
         XSTREAM.autodetectAnnotations(true);
+        XSTREAM.ignoreUnknownElements();
         XSTREAM.alias(WECHAT_PAYMENT_PAY_CALL_BACK_BODY_ALIAS, WechatPaymentRefundCallBackEncryptionResponse.class);
     }
 

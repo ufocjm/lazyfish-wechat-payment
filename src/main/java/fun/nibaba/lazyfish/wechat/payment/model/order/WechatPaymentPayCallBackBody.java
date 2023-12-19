@@ -1,6 +1,7 @@
 package fun.nibaba.lazyfish.wechat.payment.model.order;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 /**
  * 微信支付-支付回调-实体
@@ -18,7 +19,9 @@ public class WechatPaymentPayCallBackBody {
 
     static {
         XSTREAM = new XStream();
+        XSTREAM.addPermission(AnyTypePermission.ANY);
         XSTREAM.autodetectAnnotations(true);
+        XSTREAM.ignoreUnknownElements();
         XSTREAM.alias(WECHAT_PAYMENT_PAY_CALL_BACK_BODY_ALIAS, WechatPaymentPayCallBackResponse.class);
     }
 

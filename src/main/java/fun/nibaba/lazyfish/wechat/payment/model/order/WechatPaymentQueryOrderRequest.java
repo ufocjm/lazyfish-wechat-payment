@@ -1,6 +1,7 @@
 package fun.nibaba.lazyfish.wechat.payment.model.order;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentRequest;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentSign;
 
@@ -23,6 +24,7 @@ public class WechatPaymentQueryOrderRequest extends WechatPaymentRequest<WechatP
 
     static {
         XSTREAM = new XStream();
+        XSTREAM.addPermission(AnyTypePermission.ANY);
         XSTREAM.autodetectAnnotations(true);
         XSTREAM.ignoreUnknownElements();
         XSTREAM.alias(WECHAT_PAYMENT_QUERY_ORDER_RESPONSE_ALIAS, WechatPaymentQueryOrderResponse.class);

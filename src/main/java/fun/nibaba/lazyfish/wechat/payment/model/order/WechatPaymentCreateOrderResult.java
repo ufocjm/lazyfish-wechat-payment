@@ -6,6 +6,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentResult;
+import fun.nibaba.lazyfish.wechat.payment.utils.WechatAesUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -132,18 +133,7 @@ public class WechatPaymentCreateOrderResult extends WechatPaymentResult {
 
         private void sign() {
             Map<String, Object> sortMap = new TreeMap<>(JSONObject.parseObject(JSONObject.toJSONString(this)));
-
-            StringBuilder sb = new StringBuilder();
-            Set<Map.Entry<String, Object>> entries = sortMap.entrySet();
-            for (Map.Entry<String, Object> entry : entries) {
-                String paramKey = entry.getKey();
-                String paramValue = entry.getValue().toString();
-                if (StrUtil.isNotBlank(paramValue)) {
-                    sb.append(paramKey).append("=").append(paramValue).append("&");
-                }
-            }
-            sb.append("key").append("=").append(this.key);
-            this.sign = SecureUtil.md5(sb.toString()).toUpperCase();
+            this.sign = WechatAesUtil.sign(sortMap, this.key);
             log.debug("签名字符串:[{}]", this.sign);
         }
 

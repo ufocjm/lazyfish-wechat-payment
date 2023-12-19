@@ -41,4 +41,13 @@ public interface WechatPaymentOrderService {
      * @return 返回结果
      */
     WechatPaymentPayCallBackResult callBack(@NotBlank(message = "回调消息体不能为空") String xmlBody);
+
+    /**
+     * 微信支付后的回调
+     *
+     * @param xmlBody   从request中获取的到xml消息体
+     * @param mchSecret 密钥
+     * @return 返回结果
+     */
+    WechatPaymentPayCallBackResult callBack(@NotBlank(message = "回调消息体不能为空") String xmlBody, @NotBlank(message = "商户密钥不能为空") String mchSecret);
 }

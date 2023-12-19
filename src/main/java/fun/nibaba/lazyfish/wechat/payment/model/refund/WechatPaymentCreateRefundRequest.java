@@ -6,6 +6,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.ssl.SSLSocketFactoryBuilder;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import fun.nibaba.lazyfish.wechat.payment.exceptions.WechatPaymentRequestException;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentParams;
 import fun.nibaba.lazyfish.wechat.payment.model.WechatPaymentRequest;
@@ -42,6 +43,7 @@ public class WechatPaymentCreateRefundRequest extends WechatPaymentRequest<Wecha
 
     static {
         XSTREAM = new XStream();
+        XSTREAM.addPermission(AnyTypePermission.ANY);
         XSTREAM.autodetectAnnotations(true);
         XSTREAM.ignoreUnknownElements();
         XSTREAM.alias(WECHAT_PAYMENT_CREATE_REFUND_RESPONSE_ALIAS, WechatPaymentCreateRefundResponse.class);

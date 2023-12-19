@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultWechatPaymentPayCallBackInterceptor implements WechatPaymentPayCallbackInterceptor {
     @Override
     public void processBefore(String xmlBody) {
-        log.debug("进入[微信查询订单]默认前置过滤器,传入参数:[{}]", xmlBody);
+        log.debug("进入[微信支付回调]默认前置过滤器,传入参数:[{}]", xmlBody);
     }
 
     @Override
     public void processAfter(String xmlBody, WechatPaymentPayCallBackResult result) {
-        log.debug("进入[微信查询订单]默认后置过滤器,传入参数:[{}],返回结果:[{}]", xmlBody, result.toString());
+        log.debug("进入[微信支付回调]默认后置过滤器,传入参数:[{}],返回结果:[{}]", xmlBody, result.toString());
     }
 }

@@ -3,7 +3,9 @@ package fun.nibaba.lazyfish.wechat.payment.model;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import fun.nibaba.lazyfish.wechat.payment.constant.WechatConstant;
 import fun.nibaba.lazyfish.wechat.payment.properties.WechatPaymentProperties;
+import fun.nibaba.lazyfish.wechat.payment.utils.WechatAesUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,16 +48,6 @@ public class WechatPaymentSign {
      */
     private static final String MCH_ID_KEY = "mch_id";
 
-    /**
-     * 签名字段的key
-     */
-    private static final String SIGN_KEY = "sign";
-
-    /**
-     * 商户密钥的key
-     */
-    private static final String MCH_SECRET_KEY = "key";
-
     public WechatPaymentSign(WechatPaymentParams params, WechatPaymentProperties properties) {
         if (params == null) {
             throw new NullPointerException("加密参数实体不能为空");
@@ -83,28 +75,13 @@ public class WechatPaymentSign {
      * @return
      */
     public WechatPaymentSign sign(boolean toUnderlineCase) {
-        sortMap = BeanUtil.beanToMap(params, new TreeMap<>(), toUnderlineCase, true);
+        this.sortMap = BeanUtil.beanToMap(params, new TreeMap<>(), toUnderlineCase, true);
 
-        sortMap.put(APP_ID_KEY, properties.getAppid());
-        sortMap.put(MCH_ID_KEY, properties.getMchId());
+        this.sortMap.put(APP_ID_KEY, properties.getAppid());
+        this.sortMap.put(MCH_ID_KEY, properties.getMchId());
 
-        StringBuilder sb = new StringBuilder();
-        Set<Map.Entry<String, Object>> entries = sortMap.entrySet();
-        for (Map.Entry<String, Object> entry : entries) {
-            String paramKey = entry.getKey();
-            String paramValue = entry.getValue().toString();
-            if (StrUtil.isNotBlank(paramValue) && !SIGN_KEY.equals(paramKey) && !MCH_SECRET_KEY.equals(paramKey)) {
-                sb.append(paramKey).append("=").append(paramValue).append("&");
-            }
-        }
-
-        sb.append(MCH_SECRET_KEY).append("=").append(properties.getMchSecret());
-        log.debug("签名参数:[{}]", sb.toString());
-
-        this.sign = SecureUtil.md5(sb.toString()).toUpperCase();
-        log.debug("签名字符串:[{}]", this.sign);
-
-        sortMap.put(SIGN_KEY, sign);
+        this.sign = WechatAesUtil.sign(this.sortMap, properties.getMchSecret());
+        this.sortMap.put(WechatConstant.SIGN_KEY, this.sign);
         return this;
     }
 

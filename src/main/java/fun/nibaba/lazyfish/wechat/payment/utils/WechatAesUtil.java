@@ -1,7 +1,9 @@
 package fun.nibaba.lazyfish.wechat.payment.utils;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import fun.nibaba.lazyfish.wechat.payment.constant.WechatConstant;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -13,6 +15,9 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 
 /**
@@ -63,7 +68,8 @@ public class WechatAesUtil {
             cipher.init(Cipher.DECRYPT_MODE, sKeySpec, generateIV(ivByte));
             byte[] result = cipher.doFinal(content);
             return result;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchProviderException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
+                 BadPaddingException | NoSuchProviderException e) {
             e.printStackTrace();
         } catch (Exception e) {
 
@@ -109,11 +115,52 @@ public class WechatAesUtil {
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
             return new String(cipher.doFinal(Base64.decode(encryptionData)));
 
-        } catch (NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException | NoSuchPaddingException | NoSuchProviderException e) {
+        } catch (NoSuchAlgorithmException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException |
+                 NoSuchPaddingException | NoSuchProviderException e) {
             e.printStackTrace();
         }
         log.error("解密失败:encryptionData[{}],encryptionKey[{}]", encryptionData, encryptionKey);
         throw new RuntimeException("解密失败[" + encryptionData + "]");
+    }
+
+    /**
+     * 签名
+     *
+     * @param params    参数
+     * @param mchSecret 密钥
+     * @return sign
+     */
+    public String sign(Map<String, Object> params, String mchSecret) {
+        if (params == null) {
+            throw new RuntimeException("加密参数不能为空");
+        }
+        if (StrUtil.isBlank(mchSecret)) {
+            throw new RuntimeException("商户密钥不能为空");
+        }
+        Map<String, Object> sortMap;
+        if (params instanceof TreeMap) {
+            sortMap = params;
+        } else {
+            sortMap = new TreeMap<>(params);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        Set<Map.Entry<String, Object>> entries = sortMap.entrySet();
+        for (Map.Entry<String, Object> entry : entries) {
+            String paramKey = entry.getKey();
+            String paramValue = entry.getValue().toString();
+            if (StrUtil.isNotBlank(paramValue) && !WechatConstant.SIGN_KEY.equals(paramKey) && !WechatConstant.MCH_SECRET_KEY.equals(paramKey)) {
+                sb.append(paramKey).append("=").append(paramValue).append("&");
+            }
+        }
+
+        sb.append(WechatConstant.MCH_SECRET_KEY).append("=").append(mchSecret);
+        log.debug("签名参数:[{}]", sb.toString());
+
+        String sign = SecureUtil.md5(sb.toString()).toUpperCase();
+        log.debug("签名字符串:[{}]", sign);
+        return sign;
+
     }
 
 }

@@ -41,6 +41,7 @@
         <guava.version>30.1-jre</guava.version>
         <fastjson.version>2.0.32</fastjson.version>
         <bcprov.jdk15on.version>1.67</bcprov.jdk15on.version>
+
     </properties>
 
     <dependencyManagement>

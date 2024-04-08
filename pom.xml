@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fun.nibaba</groupId>
     <artifactId>lazyfish-wechat-payment</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.6.1</version>
 
     <name>${project.artifactId}</name>
     <description>【咸鱼】微信支付</description>

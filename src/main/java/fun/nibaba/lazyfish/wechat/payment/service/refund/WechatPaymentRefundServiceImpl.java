@@ -69,7 +69,7 @@ public class WechatPaymentRefundServiceImpl implements WechatPaymentRefundServic
         WechatPaymentQueryRefundResult result = response.toResult();
 
         wechatPaymentQueryRefundInterceptor.processAfter(params, result);
-        return null;
+        return result;
     }
 
     /**

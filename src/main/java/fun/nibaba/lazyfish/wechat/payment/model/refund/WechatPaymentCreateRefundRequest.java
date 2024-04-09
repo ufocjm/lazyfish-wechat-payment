@@ -63,6 +63,7 @@ public class WechatPaymentCreateRefundRequest extends WechatPaymentRequest<Wecha
      */
     @Override
     public WechatPaymentCreateRefundResponse request() {
+        super.wechatPaymentSign.sign();
         try {
             KeyStore keyStore = KeyUtil.readPKCS12KeyStore(this.certInputStream, this.password);
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
@@ -74,7 +75,7 @@ public class WechatPaymentCreateRefundRequest extends WechatPaymentRequest<Wecha
                     //这边可以不用加，hutool 的 builder 里面默认就是new SecureRandom()
 //                    .setSecureRandom(new SecureRandom())
                     .build();
-            HttpRequest httpRequest = new HttpRequest(CREATE_REFUND_URL);
+            HttpRequest httpRequest = HttpRequest.post(CREATE_REFUND_URL);
             httpRequest.setSSLSocketFactory(sslSocketFactory);
             String requestXmlStr = XmlUtil.mapToXmlStr(super.wechatPaymentSign.getSortMap());
             httpRequest.body(requestXmlStr);

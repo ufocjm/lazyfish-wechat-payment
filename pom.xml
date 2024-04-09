@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fun.nibaba</groupId>
     <artifactId>lazyfish-wechat-payment</artifactId>
-    <version>0.0.6.1</version>
+    <version>0.0.6.2-SNAPSHOT</version>
 
     <name>${project.artifactId}</name>
     <description>【咸鱼】微信支付</description>
@@ -136,6 +136,7 @@
 
     </dependencies>
 
+
     <!-- 发布配置 -->
     <distributionManagement>
         <repository>
@@ -144,7 +145,8 @@
         </repository>
         <snapshotRepository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
